@@ -1,0 +1,28 @@
+{
+  "name": "slowlystamps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server",
+    "build": "webpack",
+    "build-prod": "webpack --config webpack.config.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvaruas/slowlystamps.git"
+  },
+  "author": "Saurav Das",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvaruas/slowlystamps/issues"
+  },
+  "homepage": "https://github.com/dvaruas/slowlystamps#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.4",
+    "webpack-cli": "^4.9.2"
+  }
+}

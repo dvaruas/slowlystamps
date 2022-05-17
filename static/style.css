@@ -1,0 +1,29 @@
+.sw-page-number {
+    cursor: pointer;
+}
+
+.sw-display-card {
+    width: 120pt;
+    min-height: 170pt;
+    margin: 10px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.sw-display-card:hover {
+    background-color: rgb(244, 244, 244);
+}
+
+.sw-card-img {
+    padding: 2px;
+}
+
+.sw-card-img:hover {
+    padding: 0px;
+}
+
+.sw-card-text {
+    font-family: Helvetica, Arial;
+    font-size: 12pt;
+    font-weight: bold;
+}
