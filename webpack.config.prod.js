@@ -2,10 +2,10 @@ const path = require("path");
 
 module.exports = {
   mode: "production",
-  entry: "./src/script.ts",
+  entry: "./src/html/script.ts",
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: "script.js",
+    path: path.resolve(__dirname, "static"),
   },
   devtool: false,
   module: {
