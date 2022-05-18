@@ -49,36 +49,36 @@ document.addEventListener("DOMContentLoaded", function (_) {
   }
 
   // Fetch the actual data from the Slowly API
-  fetch(fetchInfoURL)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (myJson: any) {
-      let stampItems = myJson["items"];
-      stampItems.forEach((e: any) => {
-        let elem = StampElement.fromJson(e);
-        if (elem != null) {
-          stampList.push(elem);
-          stampMap.set(`${StampElementIDPrefix}${elem.id}`, elem);
-        }
-      });
+  // fetch(fetchInfoURL)
+  //   .then(function (response) {
+  //     return response.json();
+  //   })
+  //   .then(function (myJson: any) {
+  //     let stampItems = myJson["items"];
+  //     stampItems.forEach((e: any) => {
+  //       let elem = StampElement.fromJson(e);
+  //       if (elem != null) {
+  //         stampList.push(elem);
+  //         stampMap.set(`${StampElementIDPrefix}${elem.id}`, elem);
+  //       }
+  //     });
 
-      // Sort the items in the list, in descending order to the ID value. This
-      // ensures that the items which were added the latest would be available
-      // at the beginning
-      stampList.sort((a, b) => b.id - a.id);
+  //     // Sort the items in the list, in descending order to the ID value. This
+  //     // ensures that the items which were added the latest would be available
+  //     // at the beginning
+  //     stampList.sort((a, b) => b.id - a.id);
 
-      // Put the total count number in the navigation bar
-      let stampsCountElem = document.getElementById(TotalStampsCountID);
-      if (stampsCountElem != null) {
-        stampsCountElem.innerHTML = `#${stampItems.length}`;
-      }
+  //     // Put the total count number in the navigation bar
+  //     let stampsCountElem = document.getElementById(TotalStampsCountID);
+  //     if (stampsCountElem != null) {
+  //       stampsCountElem.innerHTML = `#${stampItems.length}`;
+  //     }
 
-      // Create the Orchestrator for these stamps
-      let navBarElem = document.getElementById(NavigationBarID);
-      if (navBarElem == null) {
-        return;
-      }
-      new Orchestrator(navBarElem, containerElem, stampList);
-    });
+  //     // Create the Orchestrator for these stamps
+  //     let navBarElem = document.getElementById(NavigationBarID);
+  //     if (navBarElem == null) {
+  //       return;
+  //     }
+  //     new Orchestrator(navBarElem, containerElem, stampList);
+  //   });
 });
