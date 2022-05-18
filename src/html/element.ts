@@ -7,6 +7,9 @@ import {
 } from "./selectors";
 import { format } from "./util";
 
+const actualStampImagePath: string =
+  "https://cdn.getslowly.com/assets/images/stamp/{0}.png";
+
 const elementInnerHTML: string = `
 <img class="card-img-top {0}" src="{1}" alt="{2}"> 
 <div class="card-body text-center">
@@ -16,15 +19,17 @@ const elementInnerHTML: string = `
 const modalInnerHTML: string = `
 <div class="container">
     <div class="row">
-        <div class="col-3">
-            <img src="{0}" width="200" height="auto">
+        <div class="col-5 p-0">
+            <a href="{0}" target="_blank">
+              <img src="{1}">
+            </a>
         </div>
-        <div class="col-9">
-            <p><b>Description: </b> {1}</p>
-            <span class="badge rounded-pill bg-primary">Type: {2}</span>
-            <span class="badge rounded-pill bg-warning text-dark">Rarity: {3}</span> 
-            <span class="badge rounded-pill bg-info text-dark">Price: {4}</span> 
-            <span class="badge rounded-pill bg-info text-dark">Country: {5}</span> 
+        <div class="col-7 p-0">
+            <p><b>Description: </b> {2}</p>
+            <span class="badge rounded-pill bg-primary">Type: {3}</span>
+            <span class="badge rounded-pill bg-warning text-dark">Rarity: {4}</span> 
+            <span class="badge rounded-pill bg-info text-dark">Price: {5}</span> 
+            <span class="badge rounded-pill bg-info text-dark">Country: {6}</span> 
         </div>
     </div>
 </div>`;
@@ -73,6 +78,7 @@ export class StampElement {
 
   get bodyForModal(): string {
     return format(modalInnerHTML, [
+      format(actualStampImagePath, [this.slug]),
       format(this.staticAssetsPath, [this.slug]),
       this.description,
       this.type,

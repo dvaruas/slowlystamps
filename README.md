@@ -19,11 +19,9 @@ got blocked due to CORS policy.
 Now we have the sucky approach. A Python [script](./src/pyservice/main.py) can
 be run to fetch all the information and it stores these in assets.
 
-## Improvements
+## TODO Improvements
 
 * [ ] Automated running of the python script everyday to fetch new results
 
 * [ ] Pagination needs to be improved with hiding page numbers, otherwise with
   the amount of stamps increasing the design will fail.
-
-* [ ] The modal has really bad design and needs to be updated at some point.
