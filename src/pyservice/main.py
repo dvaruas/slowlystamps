@@ -49,6 +49,7 @@ if __name__ == "__main__":
                 img = Image.open(fr)
                 img.resize(
                     (180, 180),
+                    Image.ANTIALIAS,
                 ).save(stamp_file_path, format="webp")
         except HTTPError as e:
             sys.exit("error fetching image for '{}': {}".format(stamp_slug, e))
