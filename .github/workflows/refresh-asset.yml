@@ -35,11 +35,8 @@ jobs:
       - name: Commit all changes in assets
         run: |
           cd $GITHUB_WORKSPACE/static/assets
-          git config --local user.email "saurav.das37@gmail.com"
-          git config --local user.name "Saurav Das"
-          [ -n "$(git status --porcelain=v1 2>/dev/null .)" ] && \
-            git add .; \
-            git commit -m "auto-updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
-            git push \
-            "https://${env.GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@github.com/dvaruas/slowlystamps.git" \
-            HEAD:main -f;
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git diff-index --quiet HEAD || \
+            (git commit -a -m'auto-updated assets on $(date +'%Y-%m-%d-%H:%M')'\
+            --allow-empty && git push -f);
