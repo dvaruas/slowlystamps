@@ -39,8 +39,10 @@ jobs:
           git config --local user.name "Saurav Das"
           git config --local --add safe.directory .
           [ -n "$(git status --porcelain=v1 2>/dev/null .)" ] && \
-            git add .; \
-            git commit -m "auto-updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
-            git push \
-            "https//${env.GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@$'https://github.com/dvaruas/slowlystamps.git/main.git" \
-            HEAD:main -f;
+            ( \
+              git add .; \
+              git commit -m "auto-updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
+              git push \
+              "https://${env.GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@github.com/dvaruas/slowlystamps.git" \
+              HEAD:main -f \
+            );
