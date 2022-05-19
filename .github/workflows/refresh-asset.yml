@@ -39,5 +39,10 @@ jobs:
           git config --global user.name "Saurav Das"
           [ -n "$(git status --porcelain=v1 2>/dev/null .)" ] && \
             git add .; \
-            git commit -m "Actions updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
-            git push origin main
+            git commit -m "Actions updated assets on $(date +'%Y-%m-%d-%H:%M')"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
