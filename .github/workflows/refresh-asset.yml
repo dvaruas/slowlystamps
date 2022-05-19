@@ -35,9 +35,6 @@ jobs:
       - name: Commit all changes in assets
         run: |
           cd $GITHUB_WORKSPACE/static/assets
-          git config --local user.email "saurav.das37@gmail.com"
-          git config --local user.name "Saurav Das"
-          git config --local --add safe.directory .
           [ -n "$(git status --porcelain=v1 2>/dev/null .)" ] && \
             ( \
               git add .; \
