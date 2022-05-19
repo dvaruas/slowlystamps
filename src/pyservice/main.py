@@ -17,6 +17,7 @@ if __name__ == "__main__":
             os.remove(os.path.join(ASSETS_DIRPATH, file_name))
 
     stamps_data = None
+    did_anything_change = False
 
     try:
         with urllib.request.urlopen(
@@ -24,9 +25,8 @@ if __name__ == "__main__":
                 INFO_URL,
                 headers={"User-Agent": "Python3"},
             )
-        ) as fr, open(INFO_FILEPATH, "w") as fw:
+        ) as fr:
             stamps_data = json.load(fr)
-            json.dump(stamps_data, fw)
     except HTTPError as e:
         sys.exit("error while fetching JSON data: {}".format(e))
 
@@ -44,6 +44,10 @@ if __name__ == "__main__":
             # If a file already exists, we don't need to download it again
             continue
 
+        # Atleast one new file has been detected. This signifies we have some
+        # new information at hand
+        did_anything_change = True
+
         try:
             with urllib.request.urlopen(IMAGE_FMT_URL.format(stamp_slug)) as fr:
                 img = Image.open(fr)
@@ -55,3 +59,13 @@ if __name__ == "__main__":
             sys.exit("error fetching image for '{}': {}".format(stamp_slug, e))
         except ConnectionRefusedError as e:
             sys.exit("error fetching image for '{}': {}".format(stamp_slug, e))
+
+    if did_anything_change:
+        with open(INFO_FILEPATH, "w") as fw:
+            json.dump(stamps_data, fw)
+
+    print(
+        "Script completed successfuly. Changes detected status : {}".format(
+            did_anything_change
+        )
+    )
