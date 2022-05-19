@@ -6,7 +6,7 @@ name: Update Assets
 on:
   schedule:
     # Runs everyday at 9:27 UTC
-    - cron: '27 9 * * *'
+    - cron: "27 9 * * *"
 
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,10 +26,12 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/src/pyservice
           pip3 install -r requirements.txt
-          
+
       - name: Running the fetch script
-        run: python3 main.py
-        
+        run: |
+          cd $GITHUB_WORKSPACE/src/pyservice
+          python3 main.py
+
       - name: Commit all changes in assets
         run: |
           cd $GITHUB_WORKSPACE/static/assets
@@ -37,4 +39,3 @@ jobs:
             git add .; \
             git commit -m "Actions updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
             git push origin main
-            
