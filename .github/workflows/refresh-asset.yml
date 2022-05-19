@@ -39,7 +39,4 @@ jobs:
             ( \
               git add .; \
               git commit -m "auto-updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
-              git push \
-              "https://${env.GITHUB_ACTOR}:${secrets.GITHUB_TOKEN}@github.com/dvaruas/slowlystamps.git" \
-              HEAD:main -f \
             );
