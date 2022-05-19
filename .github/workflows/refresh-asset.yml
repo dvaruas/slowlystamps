@@ -1,0 +1,40 @@
+# This workflow is responsible to update and save the stamp assets nightly
+
+name: Update Assets
+
+# Controls when the workflow will run
+on:
+  schedule:
+    # Runs everyday at 9:27 UTC
+    - cron: '27 9 * * *'
+
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # Name of the job - 'build'
+  build:
+    # OS on which the job runs
+    runs-on: ubuntu-latest
+
+    # The sequence of tasks that will be carried out in this job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Installing requirements for pyservice
+        run: |
+          cd $GITHUB_WORKSPACE/src/pyservice
+          pip3 install -r requirements.txt
+          
+      - name: Running the fetch script
+        run: python3 main.py
+        
+      - name: Commit all changes in assets
+        run: |
+          cd $GITHUB_WORKSPACE/static/assets
+          [ -n "$(git status --porcelain=v1 2>/dev/null .)" ] && \
+            git add .; \
+            git commit -m "Actions updated assets on $(date +'%Y-%m-%d-%H:%M')"; \
+            git push origin main
+            
