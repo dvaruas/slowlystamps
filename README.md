@@ -17,12 +17,10 @@ the Slowly CDNs and then displayed. However, this did not work as the requests
 got blocked due to CORS policy.
 
 Now we have the sucky approach of a :snake: [script](./src/pyservice/main.py)
-used to fetch all stamps info, storing them in [assets](./static/assets/).
+fetching all info and assets and storing them inside
+[static/assets](./static/assets/). 
 
 ## TODO Improvements
-
-* [ ] Automated running of the python script everyday to fetch new results. (Can
-  do this with Github Actions I think).
 
 * [ ] Pagination needs to be improved with hiding page numbers, otherwise with
   the amount of stamps increasing the design will fail. (Still got some time for
