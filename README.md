@@ -19,9 +19,3 @@ got blocked due to CORS policy.
 Now we have the sucky approach of a :snake: [script](./src/pyservice/main.py)
 fetching all info and assets and storing them inside
 [static/assets](./static/assets/). 
-
-## TODO Improvements
-
-* [ ] Pagination needs to be improved with hiding page numbers, otherwise with
-  the amount of stamps increasing the design will fail. (Still got some time for
-  this, will hold some 300-400 stamps)
