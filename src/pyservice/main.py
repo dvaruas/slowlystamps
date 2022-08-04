@@ -1,9 +1,11 @@
 import json
 import os
-from PIL import Image
 import sys
-from urllib.error import HTTPError
 import urllib.request
+from urllib.error import HTTPError
+from urllib.parse import quote
+
+from PIL import Image
 
 from consts import ASSETS_DIRPATH, IMAGE_FMT_URL, INFO_FILEPATH, INFO_URL
 
@@ -49,11 +51,11 @@ if __name__ == "__main__":
         did_anything_change = True
 
         try:
-            with urllib.request.urlopen(IMAGE_FMT_URL.format(stamp_slug)) as fr:
+            with urllib.request.urlopen(IMAGE_FMT_URL.format(quote(stamp_slug))) as fr:
                 img = Image.open(fr)
                 img.resize(
                     (180, 180),
-                    Image.ANTIALIAS,
+                    Image.LANCZOS,
                 ).save(stamp_file_path, format="webp", quality=100)
         except HTTPError as e:
             sys.exit("error fetching image for '{}': {}".format(stamp_slug, e))
