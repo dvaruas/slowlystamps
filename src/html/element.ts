@@ -5,7 +5,7 @@ import {
   StampElementIDPrefix,
   StampInfoModalID,
 } from "./selectors";
-import { format } from "./util";
+import { format, formatCountryString, formatPriceString, formatRarityString } from "./util";
 
 const actualStampImagePath: string =
   "https://cdn.getslowly.com/assets/images/stamp/{0}.png";
@@ -82,9 +82,9 @@ export class StampElement {
       format(this.staticAssetsPath, [this.slug]),
       this.description,
       this.type,
-      this.rarity,
-      this.price,
-      this.country ?? "NA",
+      formatRarityString(this.rarity),
+      formatPriceString(this.price),
+      formatCountryString(this.country),
     ]);
   }
 
