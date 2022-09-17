@@ -72,17 +72,17 @@ document.addEventListener("DOMContentLoaded", function (_) {
       // at the beginning
       stampList.sort((a, b) => b.id - a.id);
 
-      // Put the total count number in the navigation bar
-      let stampsCountElem = document.getElementById(TotalStampsCountID);
-      if (stampsCountElem != null) {
-        stampsCountElem.innerHTML = `#${stampItems.length}`;
-      }
-
       // Create the Orchestrator for these stamps
+      let stampsCountElem = document.getElementById(TotalStampsCountID);
+      if (stampsCountElem == null) {
+        return;
+      }
       let navBarElem = document.getElementById(NavigationBarID);
       if (navBarElem == null) {
         return;
       }
-      new Orchestrator(navBarElem, containerElem, stampList);
+
+      let o = new Orchestrator(navBarElem, stampsCountElem, containerElem, stampList);
+      o.refresh();
     });
 });

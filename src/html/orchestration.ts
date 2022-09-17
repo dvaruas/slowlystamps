@@ -1,4 +1,5 @@
 import { StampElement } from "./element";
+import { Filter } from "./filter";
 import { PageNumberClass } from "./selectors";
 
 class PageElement {
@@ -140,14 +141,32 @@ class Pagination {
 
 export class Orchestrator {
   private static displayElementsPerPage: number = 100;
+  
+  private navigationBlockElement: HTMLUListElement;
+  private readonly filters: Map<string, Filter> = new Map();
 
   constructor(
-    private readonly navBarElement: HTMLElement,
-    displayArea: HTMLDivElement,
-    displayElements: StampElement[]
+    navBarElement: HTMLElement,
+    private readonly stampsCountElement: HTMLElement,
+    private readonly displayArea: HTMLDivElement,
+    private readonly displayElements: StampElement[]
   ) {
+     // Create the pagination construct on the navBarElement
+     this.navigationBlockElement = document.createElement("ul");
+     this.navigationBlockElement.classList.add("pagination");
+     navBarElement.appendChild(this.navigationBlockElement);
+  }
+
+  refresh() {
+    let elems = [...this.displayElements];
+
+    // Apply filters to get the elements to show after refresh as per given filters
+    for (let [_, f] of this.filters) {
+        elems = elems.filter(f.testValidity);
+    }
+
     let totalPages = Math.ceil(
-      displayElements.length / Orchestrator.displayElementsPerPage
+      elems.length / Orchestrator.displayElementsPerPage
     );
     let pageElements: PageElement[] = [];
 
@@ -158,33 +177,43 @@ export class Orchestrator {
     for (let i = 0; i < totalPages; i++) {
       let beginIndex = Orchestrator.displayElementsPerPage * i;
       let endIndex = beginIndex + Orchestrator.displayElementsPerPage;
-      if (endIndex >= displayElements.length) {
-        endIndex = displayElements.length;
+      if (endIndex >= elems.length) {
+        endIndex = elems.length;
       }
 
       pageElements.push(
         new PageElement(
           i + 1,
-          displayArea,
-          displayElements.slice(beginIndex, endIndex),
+          this.displayArea,
+          elems.slice(beginIndex, endIndex),
           registerActiveElement
         )
       );
     }
 
-    // Create the pagination construct on the navBarElement
-    let element = document.createElement("ul");
-    element.classList.add("pagination");
-    this.navBarElement.appendChild(element);
-
     let navigationSlots: HTMLLIElement[] = [];
     pageElements.forEach((e) => navigationSlots.push(e.element));
 
-    // create a new pagination object
-    new Pagination(navigationSlots, element);
+    // Cleanup old navigation block
+    this.navigationBlockElement.innerHTML = "";
+    // Create a new pagination object
+    new Pagination(navigationSlots, this.navigationBlockElement);
 
     // Once everything is set up, simulate clicking the first element to show
     // the very first set of stamps
     navigationSlots[0].click();
+
+    // Put the total count number in the navigation bar
+    this.stampsCountElement.innerHTML = `#${elems.length}`
+  }
+
+  addFilter(f: Filter) {
+    if (!this.filters.has(f.id)) {
+        this.filters.set(f.id, f)
+    }
+  }
+
+  removeFilter(f: Filter) { // this could also be as per the id.. Let's see about that
+      this.filters.delete(f.id)
   }
 }
