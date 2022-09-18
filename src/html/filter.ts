@@ -6,21 +6,43 @@ export abstract class Filter {
 }
 
 export class RarityFilter implements Filter {
+    constructor(
+        private readonly rarity: string,
+    ) {}
+    
     get id(): string {
-        throw new Error("Method not implemented.");
+        return this.rarity;
     }
 
     testValidity(e: StampElement): boolean {
-        throw new Error("Method not implemented.");
+        return e.rarity === this.rarity;
     }
 }
 
 export class PriceFilter implements Filter {
+    constructor(
+        private readonly price: string,
+    ) {}
+
     get id(): string {
-        throw new Error("Method not implemented.");
+        return this.price;
     }
 
     testValidity(e: StampElement): boolean {
-        throw new Error("Method not implemented.");
+        return e.price === this.price;
+    }
+}
+
+export class CountryFilter implements Filter {
+    constructor(
+        private readonly country: string | null,
+    ) {}
+
+    get id(): string {
+        return this.country ?? "NA";
+    }
+
+    testValidity(e: StampElement): boolean {
+        return e.country === this.country;
     }
 }

@@ -1,4 +1,4 @@
-import { StampElement } from "./element";
+import { ModalElement, StampElement } from "./element";
 import { Orchestrator } from "./orchestration";
 import {
   NavigationBarID,
@@ -11,6 +11,8 @@ import {
 } from "./selectors";
 
 document.addEventListener("DOMContentLoaded", function (_) {
+  let o: Orchestrator;
+
   let containerElem = document.getElementById(
     StampsContainerID
   ) as HTMLDivElement;
@@ -41,8 +43,9 @@ document.addEventListener("DOMContentLoaded", function (_) {
       let elem = (e as MouseEvent).relatedTarget as HTMLDivElement;
       let stampElem = stampMap.get(elem.id);
       if (stampElem != null) {
-        stampInfoModalTitleElem.innerHTML = stampElem.titleForModal;
-        stampInfoModalBodyElem.innerHTML = stampElem.bodyForModal;
+        let stampModal = ModalElement.fromStampElement(stampElem, o);
+        stampInfoModalTitleElem.replaceChildren(stampModal.titleString);
+        stampInfoModalBodyElem.replaceChildren(stampModal.bodyElement);
       }
     });
   }
@@ -82,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function (_) {
         return;
       }
 
-      let o = new Orchestrator(navBarElem, stampsCountElem, containerElem, stampList);
-      o.refresh();
+      o = new Orchestrator(navBarElem, stampsCountElem, containerElem, stampList);
     });
 });

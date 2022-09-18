@@ -155,14 +155,16 @@ export class Orchestrator {
      this.navigationBlockElement = document.createElement("ul");
      this.navigationBlockElement.classList.add("pagination");
      navBarElement.appendChild(this.navigationBlockElement);
+
+     this.refresh();
   }
 
-  refresh() {
+  private refresh() {
     let elems = [...this.displayElements];
 
     // Apply filters to get the elements to show after refresh as per given filters
     for (let [_, f] of this.filters) {
-        elems = elems.filter(f.testValidity);
+        elems = elems.filter(f.testValidity, f);
     }
 
     let totalPages = Math.ceil(
@@ -191,6 +193,9 @@ export class Orchestrator {
       );
     }
 
+    // Put the total count number in the navigation bar
+    this.stampsCountElement.innerHTML = `#${elems.length}`
+
     let navigationSlots: HTMLLIElement[] = [];
     pageElements.forEach((e) => navigationSlots.push(e.element));
 
@@ -202,18 +207,20 @@ export class Orchestrator {
     // Once everything is set up, simulate clicking the first element to show
     // the very first set of stamps
     navigationSlots[0].click();
-
-    // Put the total count number in the navigation bar
-    this.stampsCountElement.innerHTML = `#${elems.length}`
   }
 
   addFilter(f: Filter) {
-    if (!this.filters.has(f.id)) {
-        this.filters.set(f.id, f)
+    if (this.filters.has(f.id)) {
+      return;
     }
+    this.filters.set(f.id, f);
+    this.refresh();
   }
 
   removeFilter(f: Filter) { // this could also be as per the id.. Let's see about that
-      this.filters.delete(f.id)
+    if (!this.filters.delete(f.id)) {
+      return;
+    }
+    this.refresh();
   }
 }
