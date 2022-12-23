@@ -141,7 +141,7 @@ class Pagination {
 
 export class Orchestrator {
   private static displayElementsPerPage: number = 100;
-  
+
   private navigationBlockElement: HTMLUListElement;
   private readonly filters: Map<string, Filter> = new Map();
 
@@ -151,12 +151,12 @@ export class Orchestrator {
     private readonly displayArea: HTMLDivElement,
     private readonly displayElements: StampElement[]
   ) {
-     // Create the pagination construct on the navBarElement
-     this.navigationBlockElement = document.createElement("ul");
-     this.navigationBlockElement.classList.add("pagination");
-     navBarElement.appendChild(this.navigationBlockElement);
+    // Create the pagination construct on the navBarElement
+    this.navigationBlockElement = document.createElement("ul");
+    this.navigationBlockElement.classList.add("pagination");
+    navBarElement.appendChild(this.navigationBlockElement);
 
-     this.refresh();
+    this.refresh();
   }
 
   private refresh() {
@@ -164,7 +164,7 @@ export class Orchestrator {
 
     // Apply filters to get the elements to show after refresh as per given filters
     for (let [_, f] of this.filters) {
-        elems = elems.filter(f.testValidity, f);
+      elems = elems.filter(f.testValidity, f);
     }
 
     let totalPages = Math.ceil(
@@ -217,10 +217,14 @@ export class Orchestrator {
     this.refresh();
   }
 
-  removeFilter(f: Filter) { // this could also be as per the id.. Let's see about that
+  removeFilter(f: Filter) {
     if (!this.filters.delete(f.id)) {
       return;
     }
     this.refresh();
+  }
+
+  hasFilter(f: Filter): boolean {
+    return this.filters.has(f.id);
   }
 }

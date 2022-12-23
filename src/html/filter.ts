@@ -8,10 +8,10 @@ export abstract class Filter {
 export class RarityFilter implements Filter {
     constructor(
         private readonly rarity: string,
-    ) {}
-    
+    ) { }
+
     get id(): string {
-        return this.rarity;
+        return `$rarity-{this.rarity}`;
     }
 
     testValidity(e: StampElement): boolean {
@@ -22,10 +22,10 @@ export class RarityFilter implements Filter {
 export class PriceFilter implements Filter {
     constructor(
         private readonly price: string,
-    ) {}
+    ) { }
 
     get id(): string {
-        return this.price;
+        return `price-${this.price}`;
     }
 
     testValidity(e: StampElement): boolean {
@@ -36,10 +36,10 @@ export class PriceFilter implements Filter {
 export class CountryFilter implements Filter {
     constructor(
         private readonly country: string | null,
-    ) {}
+    ) { }
 
     get id(): string {
-        return this.country ?? "NA";
+        return `country-${this.country ?? "NA"}`;
     }
 
     testValidity(e: StampElement): boolean {

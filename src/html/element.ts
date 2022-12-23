@@ -19,6 +19,89 @@ const elementInnerHTML: string = `
     <span class="card-title {3}">{4}</span>
 </div>`;
 
+class BadgeElement {
+  constructor(
+    private readonly e: HTMLSpanElement,
+    hasFilter: (() => boolean) | null = null,
+    addFilter: () => void = () => { },
+    removeFilter: () => void = () => { },
+  ) {
+    let borderOnFilterPresent = "border";
+    let borderOnFilterAbsent = "border-bottom";
+
+    e.classList.add("badge", "rounded-pill", "mx-1",
+      (hasFilter?.() ?? true) ? borderOnFilterPresent : borderOnFilterAbsent,
+      "border-dark");
+
+    e.onclick = () => {
+      if (hasFilter == null) {
+        return;
+      }
+      if (hasFilter()) {
+        // remove the filter
+        removeFilter();
+        e.classList.replace(borderOnFilterPresent, borderOnFilterAbsent);
+      } else {
+        // add the filter
+        addFilter();
+        e.classList.replace(borderOnFilterAbsent, borderOnFilterPresent);
+      }
+    }
+  }
+
+  get element(): HTMLSpanElement {
+    return this.e;
+  }
+
+  static createTypeBadge(type: string): BadgeElement {
+    let e = document.createElement("span");
+
+    e.classList.add("bg-primary");
+    e.innerHTML = `Type: ${type}`
+
+    return new BadgeElement(e);
+  }
+
+  static createRarityBadge(rarity: string, o: Orchestrator): BadgeElement {
+    let e = document.createElement("span");
+
+    e.classList.add("bg-warning", "text-dark");
+    e.innerHTML = `Rarity: ${formatRarityString(rarity)}`;
+
+    let rarityFilter = new RarityFilter(rarity);
+    return new BadgeElement(e,
+      () => o.hasFilter(rarityFilter),
+      () => o.addFilter(rarityFilter),
+      () => o.removeFilter(rarityFilter));
+  }
+
+  static createPriceBadge(price: string, o: Orchestrator): BadgeElement {
+    let e = document.createElement("span");
+
+    e.classList.add("bg-info", "text-dark");
+    e.innerHTML = `Price: ${formatPriceString(price)}`;
+
+    let priceFilter = new PriceFilter(price);
+    return new BadgeElement(e,
+      () => o.hasFilter(priceFilter),
+      () => o.addFilter(priceFilter),
+      () => o.removeFilter(priceFilter));
+  }
+
+  static createCountryBadgeElement(country: string | null, o: Orchestrator): BadgeElement {
+    let e = document.createElement("span");
+
+    e.classList.add("bg-info", "text-dark", "mx-1");
+    e.innerHTML = `Country: ${formatCountryString(country)}`;
+
+    let countryFilter = new CountryFilter(country);
+    return new BadgeElement(e,
+      () => o.hasFilter(countryFilter),
+      () => o.addFilter(countryFilter),
+      () => o.removeFilter(countryFilter));
+  }
+}
+
 export class ModalElement {
   constructor(
     private readonly title: string,
@@ -37,47 +120,33 @@ export class ModalElement {
     aElement.target = "_blank";
     aElement.appendChild(imgElem);
 
-    let col1 = document.createElement("div")
+    let col1 = document.createElement("div");
     col1.classList.add("col-5", "p-0");
     col1.appendChild(aElement);
 
     let descriptionTextElem = document.createElement("p");
     descriptionTextElem.innerHTML = `<b>Description: </b> ${se.description}`;
 
-    let typeBadgeElem = document.createElement("span")
-    typeBadgeElem.classList.add("badge", "rounded-pill", "bg-primary", "mx-1")
-    typeBadgeElem.innerHTML = `Type: ${se.type}`
-
-    let rarityBadgeElem = document.createElement("span")
-    rarityBadgeElem.classList.add("badge", "rounded-pill", "bg-warning", "text-dark", "mx-1");
-    rarityBadgeElem.innerHTML = `Rarity: ${formatRarityString(se.rarity)}`;
-    rarityBadgeElem.onclick = () => o.addFilter(new RarityFilter(se.rarity));
-
-    let priceBadgeElem = document.createElement("span");
-    priceBadgeElem.classList.add("badge", "rounded-pill", "bg-info", "text-dark", "mx-1");
-    priceBadgeElem.innerHTML = `Price: ${formatPriceString(se.price)}`;
-    priceBadgeElem.onclick = () => o.addFilter(new PriceFilter(se.price))
-
-    let countryBadgeElem = document.createElement("span");
-    countryBadgeElem.classList.add("badge", "rounded-pill", "bg-info", "text-dark", "mx-1");
-    countryBadgeElem.innerHTML = `Country: ${formatCountryString(se.country)}`;
-    countryBadgeElem.onclick = () => o.addFilter(new CountryFilter(se.country));
+    let typeBadge = BadgeElement.createTypeBadge(se.type);
+    let rarityBadge = BadgeElement.createRarityBadge(se.rarity, o);
+    let priceBadge = BadgeElement.createPriceBadge(se.price, o);
+    let countryBadge = BadgeElement.createCountryBadgeElement(se.country, o);
 
     let col2 = document.createElement("div");
     col2.classList.add("col-7", "p-0");
     col2.appendChild(descriptionTextElem);
-    col2.appendChild(typeBadgeElem);
-    col2.appendChild(rarityBadgeElem);
-    col2.appendChild(priceBadgeElem);
-    col2.appendChild(countryBadgeElem);
+    col2.appendChild(typeBadge.element);
+    col2.appendChild(rarityBadge.element);
+    col2.appendChild(priceBadge.element);
+    col2.appendChild(countryBadge.element);
 
-    let row = document.createElement("div")
-    row.classList.add("row")
+    let row = document.createElement("div");
+    row.classList.add("row");
     row.appendChild(col1);
     row.appendChild(col2);
 
-    let e = document.createElement("div")
-    e.classList.add("container")
+    let e = document.createElement("div");
+    e.classList.add("container");
     e.appendChild(row);
 
     return new ModalElement(se.name, e);
