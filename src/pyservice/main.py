@@ -5,9 +5,8 @@ import urllib.request
 from urllib.error import HTTPError
 from urllib.parse import quote
 
-from PIL import Image
-
 from consts import ASSETS_DIRPATH, IMAGE_FMT_URL, INFO_FILEPATH, INFO_URL
+from PIL import Image
 
 # Toggle this if we want to cleanup whatever we have and start afresh
 DO_CLEANUP = False
@@ -34,7 +33,7 @@ if __name__ == "__main__":
 
     # For each of the stamps, convert, resize and then save them
     for stamp_info in stamps_data["items"]:
-        stamp_slug = stamp_info["slug"]
+        stamp_slug: str = stamp_info["slug"]
         if stamp_slug == "":
             continue
 
@@ -54,8 +53,9 @@ if __name__ == "__main__":
             with urllib.request.urlopen(IMAGE_FMT_URL.format(quote(stamp_slug))) as fr:
                 img = Image.open(fr)
                 img.resize(
-                    (180, 180),
-                    Image.LANCZOS,
+                    size=(180, 180),
+                    resample=Image.LANCZOS,
+                    reducing_gap=3.0,
                 ).save(stamp_file_path, format="webp", quality=100)
         except HTTPError as e:
             sys.exit("error fetching image for '{}': {}".format(stamp_slug, e))
