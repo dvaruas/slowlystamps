@@ -1,4 +1,5 @@
 import { CountryFilter, PriceFilter, RarityFilter } from "./filter";
+import { slugsToIgnore } from "./ignore";
 import { Orchestrator } from "./orchestration";
 import {
   StampCardClass,
@@ -22,7 +23,7 @@ export class ModalElement {
   constructor(
     private readonly title: string,
     private readonly e: HTMLDivElement,
-  ) {}
+  ) { }
 
   static fromStampElement(
     se: StampElement,
@@ -42,7 +43,7 @@ export class ModalElement {
 
     let descriptionTextElem = document.createElement("p");
     descriptionTextElem.innerHTML = `<b>Description: </b> ${se.description}`;
-    
+
     let typeBadgeElem = document.createElement("span")
     typeBadgeElem.classList.add("badge", "rounded-pill", "bg-primary", "mx-1")
     typeBadgeElem.innerHTML = `Type: ${se.type}`
@@ -104,7 +105,7 @@ export class StampElement {
     readonly description: string,
     readonly country: string | null,
     readonly stampImagePath: string
-  ) {}
+  ) { }
 
   get element(): HTMLDivElement {
     if (this.e != null) {
@@ -137,30 +138,41 @@ export class StampElement {
     if (id == null) {
       return null;
     }
+
     let slug = jsonElem["slug"] as string | null;
     if (slug == null) {
       return null;
     }
+    // Additionally check if the slug is supposed to be ignored
+    if (slugsToIgnore.includes(slug)) {
+      return null;
+    }
+
     let name = jsonElem["name"] as string | null;
     if (name == null) {
       return null;
     }
+
     let type = jsonElem["type"] as string | null;
     if (type == null) {
       return null;
     }
+
     let rarity = jsonElem["rarity"] as string | null;
     if (rarity == null) {
       return null;
     }
+
     let price = jsonElem["price"] as string | null;
     if (price == null) {
       return null;
     }
+
     let description = jsonElem["desc"] as string | null;
     if (description == null) {
       return null;
     }
+
     let country = jsonElem["country"] as string | null;
 
     return new StampElement(
