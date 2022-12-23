@@ -9,7 +9,7 @@ The main source of information is this API endpoint -
 `https://api.getslowly.com/slowly`. Information is fetched from here and then
 parsed and displayed in a human understandable format.
 
-Check out (**Slowly**)[https://slowly.app/en/] :mailbox:
+Check out [**Slowly**](https://slowly.app/en/) :mailbox_with_mail: for yourself.
 
 ## The story of an unfortunate event
 
@@ -31,6 +31,8 @@ am hopefully not breaking any :copyright: agreements.. :grinning:
 
 - [ ] Make the user interface a bit more interactive
 - [ ] Stop the dynamic adjustment and shifting of components in navbar
+
+---
 
 Built with **TypeScript**, :wrench:  
 bundled with **Webpack**, :space_invader:  
