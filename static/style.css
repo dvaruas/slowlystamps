@@ -27,3 +27,11 @@
     font-size: 12pt;
     font-weight: bold;
 }
+
+#sw-filter-clear {
+    cursor: pointer;
+}
+
+.sw-modal-badge {
+    cursor: pointer;
+}

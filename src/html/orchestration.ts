@@ -224,6 +224,11 @@ export class Orchestrator {
     this.refresh();
   }
 
+  removeAllFilters() {
+    this.filters.clear();
+    this.refresh();
+  }
+
   hasFilter(f: Filter): boolean {
     return this.filters.has(f.id);
   }

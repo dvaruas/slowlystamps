@@ -6,6 +6,7 @@ import {
   StampCardImageClass,
   StampCardNameClass,
   StampElementIDPrefix,
+  StampInfoModalBadgeClass,
   StampInfoModalID,
 } from "./selectors";
 import { format, formatCountryString, formatPriceString, formatRarityString } from "./util";
@@ -31,7 +32,8 @@ class BadgeElement {
 
     e.classList.add("badge", "rounded-pill", "mx-1",
       (hasFilter?.() ?? true) ? borderOnFilterPresent : borderOnFilterAbsent,
-      "border-dark");
+      "border-dark",
+      StampInfoModalBadgeClass);
 
     e.onclick = () => {
       if (hasFilter == null) {

@@ -4,6 +4,9 @@ export const StampsContainerID = "sw-container";
 // The navigation bar element
 export const NavigationBarID = "sw-navbar";
 
+// The icon which when clicked would cleanup the existing filters
+export const FilterCleanerIconID = "sw-filter-clear";
+
 // The numbers in the pagination (inside navigation bar)
 export const PageNumberClass = "sw-page-number";
 
@@ -22,3 +25,4 @@ export const StampCardNameClass = "sw-card-text";
 export const StampInfoModalID = "sw-modal";
 export const StampInfoModalTitleID = "sw-modal-title";
 export const StampInfoModalBodyID = "sw-modal-body";
+export const StampInfoModalBadgeClass = "sw-modal-badge";

@@ -1,6 +1,7 @@
 import { ModalElement, StampElement } from "./element";
 import { Orchestrator } from "./orchestration";
 import {
+  FilterCleanerIconID,
   NavigationBarID,
   StampElementIDPrefix,
   StampInfoModalBodyID,
@@ -86,5 +87,14 @@ document.addEventListener("DOMContentLoaded", function (_) {
       }
 
       o = new Orchestrator(navBarElem, stampsCountElem, containerElem, stampList);
+
+      // Setup the filter cleaner icon to clean up all filters when clicked upon
+      let filterCleanerElem = document.getElementById(
+        FilterCleanerIconID
+      ) as HTMLElement;
+      if (filterCleanerElem == null) {
+        return;
+      }
+      filterCleanerElem.onclick = () => o.removeAllFilters();
     });
 });
