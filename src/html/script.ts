@@ -1,15 +1,14 @@
 import { ModalElement, StampElement } from "./element";
 import { Orchestrator } from "./orchestration";
 import {
-  FilterCleanerIconID,
   NavigationBarID,
   StampElementIDPrefix,
   StampInfoModalBodyID,
   StampInfoModalID,
   StampInfoModalTitleID,
   StampsContainerID,
-  TotalStampsCountID,
-} from "./selectors";
+  StampsCountDisplayerDivID,
+} from "./consts";
 
 document.addEventListener("DOMContentLoaded", function (_) {
   let o: Orchestrator;
@@ -77,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function (_) {
       stampList.sort((a, b) => b.id - a.id);
 
       // Create the Orchestrator for these stamps
-      let stampsCountElem = document.getElementById(TotalStampsCountID);
-      if (stampsCountElem == null) {
+      let stampCountDisplayerElem = document.getElementById(StampsCountDisplayerDivID);
+      if (stampCountDisplayerElem == null) {
         return;
       }
       let navBarElem = document.getElementById(NavigationBarID);
@@ -86,15 +85,6 @@ document.addEventListener("DOMContentLoaded", function (_) {
         return;
       }
 
-      o = new Orchestrator(navBarElem, stampsCountElem, containerElem, stampList);
-
-      // Setup the filter cleaner icon to clean up all filters when clicked upon
-      let filterCleanerElem = document.getElementById(
-        FilterCleanerIconID
-      ) as HTMLElement;
-      if (filterCleanerElem == null) {
-        return;
-      }
-      filterCleanerElem.onclick = () => o.removeAllFilters();
+      o = new Orchestrator(navBarElem, stampCountDisplayerElem, containerElem, stampList);
     });
 });

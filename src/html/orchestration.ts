@@ -1,6 +1,12 @@
 import { StampElement } from "./element";
 import { Filter } from "./filter";
-import { PageNumberClass } from "./selectors";
+import {
+  FiltersActivatedImageSource,
+  FiltersDeactivatedImageSource,
+  PageNumberClass,
+  StampsFilterClearID,
+  TotalStampsParaID,
+} from "./consts";
 
 class PageElement {
   public readonly element: HTMLLIElement;
@@ -139,18 +145,57 @@ class Pagination {
   }
 }
 
+class StampCountDisplayer {
+  private readonly filterIndicatorElement: HTMLImageElement;
+  private readonly countDisplayerElement: HTMLParagraphElement;
+
+  constructor(
+    parentElem: HTMLElement,
+    private readonly o: Orchestrator,
+  ) {
+    // Create the filter indicator
+    let filterIndicator = document.createElement("img");
+    filterIndicator.id = StampsFilterClearID;
+    filterIndicator.src = FiltersDeactivatedImageSource;
+    filterIndicator.width = 34;
+    filterIndicator.height = 34;
+    filterIndicator.onclick = () => o.removeAllFilters();
+    parentElem.appendChild(filterIndicator);
+    this.filterIndicatorElement = filterIndicator;
+
+    // Create the number indicator
+    let countDisplayer = document.createElement("p");
+    countDisplayer.id = TotalStampsParaID;
+    countDisplayer.classList.add("h4", "px-1");
+    parentElem.appendChild(countDisplayer);
+    this.countDisplayerElement = countDisplayer;
+  }
+
+  update(count: Number) {
+    this.countDisplayerElement.innerHTML = `#${count}`;
+    this.filterIndicatorElement.src = this.o.hasFilter() ?
+      FiltersActivatedImageSource :
+      FiltersDeactivatedImageSource;
+  }
+}
+
 export class Orchestrator {
   private static displayElementsPerPage: number = 100;
 
-  private navigationBlockElement: HTMLUListElement;
+  private readonly navigationBlockElement: HTMLUListElement;
+  private readonly stampCounterDisplayer: StampCountDisplayer;
   private readonly filters: Map<string, Filter> = new Map();
 
   constructor(
     navBarElement: HTMLElement,
-    private readonly stampsCountElement: HTMLElement,
+    stampCountDisplayerElement: HTMLElement,
     private readonly displayArea: HTMLDivElement,
     private readonly displayElements: StampElement[]
   ) {
+    // Create the stamp count displayer.
+    this.stampCounterDisplayer = new StampCountDisplayer(
+      stampCountDisplayerElement, this);
+
     // Create the pagination construct on the navBarElement
     this.navigationBlockElement = document.createElement("ul");
     this.navigationBlockElement.classList.add("pagination");
@@ -193,8 +238,7 @@ export class Orchestrator {
       );
     }
 
-    // Put the total count number in the navigation bar
-    this.stampsCountElement.innerHTML = `#${elems.length}`
+    this.stampCounterDisplayer.update(elems.length);
 
     let navigationSlots: HTMLLIElement[] = [];
     pageElements.forEach((e) => navigationSlots.push(e.element));
@@ -229,7 +273,11 @@ export class Orchestrator {
     this.refresh();
   }
 
-  hasFilter(f: Filter): boolean {
+  hasFilter(f: Filter | null = null): boolean {
+    if (f == null) {
+      // If no filter is provided, return true if there is atleast one filter set
+      return this.filters.size > 0;
+    }
     return this.filters.has(f.id);
   }
 }

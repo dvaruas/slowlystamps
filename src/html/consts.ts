@@ -4,14 +4,16 @@ export const StampsContainerID = "sw-container";
 // The navigation bar element
 export const NavigationBarID = "sw-navbar";
 
-// The icon which when clicked would cleanup the existing filters
-export const FilterCleanerIconID = "sw-filter-clear";
-
 // The numbers in the pagination (inside navigation bar)
 export const PageNumberClass = "sw-page-number";
 
-// Element inside which the total number of stamps count is shown
-export const TotalStampsCountID = "sw-count";
+// Element inside which the total number of stamps count and the filter clearer is shown
+export const StampsCountDisplayerDivID = "sw-display-count";
+export const TotalStampsParaID = "sw-count";
+export const StampsFilterClearID = "sw-filter";
+// Location for resources related to filter display along with stamp count
+export const FiltersActivatedImageSource = "static/braces-asterisk.svg";
+export const FiltersDeactivatedImageSource = "static/braces.svg";
 
 // Each stamp element ID prefix
 export const StampElementIDPrefix = "sw-stamp-";

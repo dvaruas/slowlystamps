@@ -7,8 +7,8 @@ import {
   StampCardNameClass,
   StampElementIDPrefix,
   StampInfoModalBadgeClass,
-  StampInfoModalID,
-} from "./selectors";
+  StampInfoModalID
+} from "./consts";
 import { format, formatCountryString, formatPriceString, formatRarityString } from "./util";
 
 const actualStampImagePath: string =
