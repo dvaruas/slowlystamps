@@ -148,6 +148,7 @@ class Pagination {
 class StampCountDisplayer {
   private readonly filterIndicatorElement: HTMLImageElement;
   private readonly countDisplayerElement: HTMLParagraphElement;
+  private lastRemovedFilters: Map<String, Filter> | null = null;
 
   constructor(
     parentElem: HTMLElement,
@@ -159,7 +160,13 @@ class StampCountDisplayer {
     filterIndicator.src = FiltersDeactivatedImageSource;
     filterIndicator.width = 34;
     filterIndicator.height = 34;
-    filterIndicator.onclick = () => o.removeAllFilters();
+    filterIndicator.onclick = () => {
+      if (o.hasFilter()) {
+        this.lastRemovedFilters = o.removeAllFilters();
+      } else {
+        this.lastRemovedFilters?.forEach((f) => o.addFilter(f));
+      }
+    };
     parentElem.appendChild(filterIndicator);
     this.filterIndicatorElement = filterIndicator;
 
@@ -268,9 +275,11 @@ export class Orchestrator {
     this.refresh();
   }
 
-  removeAllFilters() {
+  removeAllFilters(): Map<string, Filter> {
+    let filtersBkup = new Map(this.filters);
     this.filters.clear();
     this.refresh();
+    return filtersBkup;
   }
 
   hasFilter(f: Filter | null = null): boolean {
