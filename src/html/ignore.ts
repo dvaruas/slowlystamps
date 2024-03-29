@@ -3,4 +3,5 @@
 export const slugsToIgnore = [
     "castle-", // Castles of Europe
     "time-machine", // Time Machine
+    "lighthouse", // Beautiful Lighthouses
 ];
