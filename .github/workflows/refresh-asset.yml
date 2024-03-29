@@ -20,7 +20,7 @@ jobs:
     # The sequence of tasks that will be carried out in this job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Installing requirements for pyservice
         run: |
