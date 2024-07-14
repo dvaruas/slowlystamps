@@ -4,4 +4,5 @@ export const slugsToIgnore = [
     "castle-", // Castles of Europe
     "time-machine", // Time Machine
     "lighthouse", // Beautiful Lighthouses
+    "music-notes-red" // Sound of the World
 ];
