@@ -11,4 +11,4 @@ INFO_URL: str = "https://api.getslowly.com/slowly"
 INFO_FILEPATH: str = os.path.join(ASSETS_DIRPATH, "slowly.json")
 
 # Individual images of stamps can be found here
-IMAGE_FMT_URL: str = "https://cdn.getslowly.com/assets/images/stamp/{}.png"
+IMAGE_FMT_URL: str = "https://static.slowly.app/stamp/{}.png"
