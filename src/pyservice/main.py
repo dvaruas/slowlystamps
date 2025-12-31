@@ -24,7 +24,7 @@ if __name__ == "__main__":
         with urllib.request.urlopen(
             urllib.request.Request(
                 INFO_URL,
-                headers={"User-Agent": "Python3"},
+                headers={"User-Agent": "python3"},
             )
         ) as fr:
             stamps_data = json.load(fr)
@@ -45,7 +45,7 @@ if __name__ == "__main__":
             # If a file already exists, we don't need to download it again
             continue
 
-        # Atleast one new file has been detected. This signifies we have some
+        # At least one new file has been detected. This signifies we have some
         # new information at hand
         did_anything_change = True
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             json.dump(stamps_data, fw)
 
     print(
-        "Script completed successfuly. Changes detected status : {}".format(
+        "Script completed successfully. Changes detected status : {}".format(
             did_anything_change
         )
     )
